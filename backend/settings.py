@@ -246,7 +246,6 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     # Использовать secure cookies для сессий (передаются только по HTTPS)
     SESSION_COOKIE_SECURE = True
-    # Использовать secure cookies для CSRF (передаются только по HTTPS)
     CSRF_COOKIE_SECURE = True
     # Настройки HSTS (Strict Transport Security) - защита от MITM атак
     # Браузер будет принудительно использовать HTTPS для этого сайта в течение года
