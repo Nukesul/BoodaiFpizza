@@ -62,7 +62,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:3000",
     "http://localhost:5173",  # Для локального Vue.js (npm run dev)
-    "https://boodaikg.com/",  # Ваш фронтенд-домен
+    "https://boodaikg.com",
+    "https://vasyaproger-backend1-c0b9.twc1.net",  # Ваш фронтенд-домен
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -94,6 +95,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:5173',  # Для локального Vue.js
     'https://boodaikg.com',
+    'https://vasyaproger-backend1-c0b9.twc1.net',  # Ваш фронтенд-домен
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -206,7 +208,7 @@ LOGGING = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Security settings for production
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
