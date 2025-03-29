@@ -88,7 +88,8 @@ CORS_ALLOW_HEADERS = [
 
 # Доверенные источники CSRF
 CSRF_TRUSTED_ORIGINS = [
-    'https://boodaikg.com',  # Основной фронтенд домен
+    'https://boodaikg.com',  # Основной фронтенд доме
+    'https://nukesul-boodaifpizza-5206.twc1.net',  # Дополнительный домен
 ]
 
 ROOT_URLCONF = 'backend.urls'  # Основной файл URL маршрутов
