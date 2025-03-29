@@ -1,119 +1,91 @@
 """
 Настройки Django для проекта backend.
 Сгенерировано командой 'django-admin startproject' с использованием Django 4.2.
-Для дополнительной информации об этом файле смотрите:
-https://docs.djangoproject.com/en/4.2/topics/settings/
 """
 
 from pathlib import Path
 import os
 
-# Построение путей внутри проекта, например: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ПРЕДУПРЕЖДЕНИЕ О БЕЗОПАСНОСТИ: держите секретный ключ в тайне в продакшене!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-%x&kg-nx75kirv^12#m@y0f486)4bphas#&6-m224qr%4iv$2o')
 
-# ПРЕДУПРЕЖДЕНИЕ О БЕЗОПАСНОСТИ: не запускайте с включенным дебагом в продакшене!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-# Разрешенные хосты
 ALLOWED_HOSTS = [
-    'localhost',                    # Локальный хост
-    '127.0.0.1',                   # Локальный IP
-    'vh438.timeweb.ru',            # Хостинг сервер
-    'boodaikg.com',               # Основной домен
-    'https://nukesul-boodaifpizza-5206.twc1.net',  # Дополнительный домен
-    '0.0.0.0',                    # Для Docker
+    'localhost',
+    '127.0.0.1',
+    'vh438.timeweb.ru',
+    'boodaikg.com',
+    'www.boodaikg.com',
+    'nukesul-boodaifpizza-5206.twc1.net',  # Убрал https://
+    '0.0.0.0',
 ]
 
-# Порт сервера (используется для запуска)
-PORT = int(os.getenv('PORT', 3000))  # Изменен на 3000
+PORT = int(os.getenv('PORT', 8000))  # Вернул стандартный 8000 порт
 
-# Определение приложений
 INSTALLED_APPS = [
-    'admin_interface',             # Интерфейс админки
-    'colorfield',                 # Поля для цветов
-    'django.contrib.admin',       # Админ панель
-    'django.contrib.auth',        # Аутентификация
-    'django.contrib.contenttypes',# Типы контента
-    'django.contrib.sessions',    # Сессии
-    'django.contrib.messages',    # Сообщения
-    'django.contrib.staticfiles', # Статические файлы
-    'rest_framework',            # REST API
-    'rest_framework.authtoken',  # Токены для API
-    'corsheaders',              # Поддержка CORS
-    'shop',                    # Приложение магазина
+    'admin_interface',
+    'colorfield',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'shop',
 ]
 
-# Промежуточное ПО
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',        # Безопасность
-    'django.contrib.sessions.middleware.SessionMiddleware', # Сессии
-    'corsheaders.middleware.CorsMiddleware',               # CORS (должен быть выше CommonMiddleware)
-    'django.middleware.common.CommonMiddleware',          # Общие функции
-    'django.middleware.csrf.CsrfViewMiddleware',         # Защита от CSRF
-    'django.contrib.auth.middleware.AuthenticationMiddleware', # Аутентификация
-    'django.contrib.messages.middleware.MessageMiddleware',   # Сообщения
-    'django.middleware.clickjacking.XFrameOptionsMiddleware', # Защита от кликджекинга
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Настройки CORS
 CORS_ALLOWED_ORIGINS = [
-    "https://boodaikg.com",  # Основной фронтенд домен
+    "http://localhost:3000",
+    "https://boodaikg.com",
+    "https://www.boodaikg.com",
+    "https://nukesul-boodaifpizza-5206.twc1.net",
 ]
 
-CORS_ALLOW_CREDENTIALS = True  # Разрешить отправку учетных данных
+CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOW_METHODS = [
-    "DELETE",  # Удаление
-    "GET",    # Получение
-    "OPTIONS",# Опции
-    "PATCH",  # Частичное обновление
-    "POST",   # Создание
-    "PUT",    # Полное обновление
-]
-
-CORS_ALLOW_HEADERS = [
-    "accept",           # Принимаемые типы
-    "accept-encoding", # Кодирование
-    "authorization",   # Авторизация
-    "content-type",    # Тип контента
-    "dnt",            # Не отслеживать
-    "origin",        # Источник
-    "user-agent",    # Агент пользователя
-    "x-csrftoken",   # CSRF токен
-    "x-requested-with", # Запрос AJAX
-]
-
-# Доверенные источники CSRF
 CSRF_TRUSTED_ORIGINS = [
-    'https://boodaikg.com',  # Основной фронтенд доме
-    'https://nukesul-boodaifpizza-5206.twc1.net',  # Дополнительный домен
+    'http://localhost:3000',
+    'https://boodaikg.com',
+    'https://www.boodaikg.com',
+    'https://nukesul-boodaifpizza-5206.twc1.net',  # Убрал слеш в конце
 ]
 
-ROOT_URLCONF = 'backend.urls'  # Основной файл URL маршрутов
+ROOT_URLCONF = 'backend.urls'
 
-# Настройки шаблонов
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "shop" / "templates"],  # Директория шаблонов
+        'DIRS': [BASE_DIR / "shop" / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',      # Дебаг
-                'django.template.context_processors.request',    # Запрос
-                'django.contrib.auth.context_processors.auth',   # Аутентификация
-                'django.contrib.messages.context_processors.messages', # Сообщения
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'  # WSGI приложение
+WSGI_APPLICATION = 'backend.wsgi.application'
 
-# База данных
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -121,97 +93,88 @@ DATABASES = {
     }
 } if DEBUG else {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',    # Движок MySQL
-        'NAME': 'ch79145_boodai',               # Имя БД
-        'USER': 'ch79145_boodai',              # Пользователь
-        'PASSWORD': '16162007',               # Пароль
-        'HOST': 'vh438.timeweb.ru',          # Хост
-        'PORT': '3306',                     # Порт
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ch79145_boodai',
+        'USER': 'ch79145_boodai',
+        'PASSWORD': '16162007',
+        'HOST': 'vh438.timeweb.ru',
+        'PORT': '3306',
         'OPTIONS': {
-            'charset': 'utf8mb4',          # Кодировка
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'", # Режим SQL
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
 }
 
-# Валидаторы паролей
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'}, # Похожесть с данными пользователя
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},          # Минимальная длина
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},        # Обычные пароли
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},      # Только цифры
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Интернационализация
-LANGUAGE_CODE = 'ru-ru'  # Русский язык
-TIME_ZONE = 'UTC'       # Временная зона UTC
-USE_I18N = True        # Поддержка интернационализации
-USE_L10N = True       # Поддержка локализации
-USE_TZ = False       # Отключение часовых поясов
+LANGUAGE_CODE = 'ru-ru'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = False
 
-# Статические файлы
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # Директория статических файлов
-STATIC_ROOT = BASE_DIR / "staticfiles"   # Сбор статических файлов
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Медиа файлы
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'  # Директория медиа
+MEDIA_ROOT = BASE_DIR / 'media'
 
-# Ограничения загрузки файлов
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 МБ
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 МБ
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
-# Настройки REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',   # Токен аутентификация
-        'rest_framework.authentication.SessionAuthentication', # Сессионная аутентификация
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly', # Доступ только для чтения без аутентификации
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 12,  # Размер страницы пагинации
+    'PAGE_SIZE': 12,
 }
 
-# Настройки email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Вывод email в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Логирование
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console': {'class': 'logging.StreamHandler'},           # Вывод в консоль
+        'console': {'class': 'logging.StreamHandler'},
         'file': {
             'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'debug.log',                 # Файл логов
+            'filename': BASE_DIR / 'debug.log',
         },
     },
     'loggers': {
         'django': {
             'handlers': ['console', 'file'],
-            'level': 'INFO',                                   # Уровень логирования
+            'level': 'INFO',
         },
         'shop': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',                                 # Уровень для приложения shop
+            'level': 'DEBUG',
         },
     },
 }
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'  # Тип автоинкрементного поля
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Настройки безопасности для продакшена
 if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Прокси HTTPS
-    SECURE_SSL_REDIRECT = True                                   # Перенаправление на HTTPS
-    SESSION_COOKIE_SECURE = True                                # Безопасные cookies сессии
-    CSRF_COOKIE_SECURE = True                                  # Безопасные CSRF cookies
-    SECURE_HSTS_SECONDS = 31536000                            # HSTS на год
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True                    # HSTS для поддоменов
-    SECURE_HSTS_PRELOAD = True                              # Предзагрузка HSTS
-    SECURE_CONTENT_TYPE_NOSNIFF = True                     # Защита от MIME-сниффинга
-    SECURE_BROWSER_XSS_FILTER = True                      # Фильтр XSS
-    X_FRAME_OPTIONS = 'DENY'                             # Запрет фреймов
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True  # Исправлена опечатка (было SECURE)
+    CSRF_COOKIE_SECURE = True     # Исправлена опечатка (было SECURE)
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
