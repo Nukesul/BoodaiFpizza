@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-%x&kg-nx75kirv^12#m@y0f486)4bphas#&6-m224qr%4iv$2o')
 
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'  # По умолчанию False для production
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -15,9 +15,6 @@ ALLOWED_HOSTS = [
     'www.boodaikg.com',
     'nukesul-boodaifpizza-5206.twc1.net',
 ]
-
-# Порт для приложения
-PORT = int(os.getenv('PORT', 3000))
 
 INSTALLED_APPS = [
     'admin_interface',
@@ -66,7 +63,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "shop" / "templates"],
+        'DIRS': [BASE_DIR / "templates"],  # Changed to look in base templates directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,6 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# Database configuration with fallback to SQLite if MySQL fails
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -95,6 +93,23 @@ DATABASES = {
         },
     }
 }
+
+# Fallback to SQLite if MySQL is not available
+try:
+    import MySQLdb
+    MySQLdb.connect(
+        host='vh438.timeweb.ru',
+        user='ch79145_boodai',
+        passwd='16162007',
+        db='ch79145_boodai',
+        port=3306
+    )
+except Exception as e:
+    print(f"MySQL connection failed: {e}, falling back to SQLite")
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -157,14 +172,15 @@ LOGGING = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Настройки безопасности для production
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
+# Security settings - only enable in production
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
