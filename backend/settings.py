@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-%x&kg-nx75kirv^12#m@y0f486)4bphas#&6-m224qr%4iv$2o')
 
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'  # Установим False по умолчанию
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -13,11 +13,11 @@ ALLOWED_HOSTS = [
     'vh438.timeweb.ru',
     'boodaikg.com',
     'www.boodaikg.com',
-    'nukesul-boodaifpizza-5206.twc1.net',  
+    'nukesul-boodaifpizza-5206.twc1.net',
     '0.0.0.0',
 ]
 
-PORT = int(os.getenv('PORT', 8000))  # Вернул стандартный 8000 порт
+PORT = int(os.getenv('PORT', 3000))  # Изменил порт на 3000
 
 INSTALLED_APPS = [
     'admin_interface',
@@ -58,7 +58,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'https://boodaikg.com',
     'https://www.boodaikg.com',
-    'https://nukesul-boodaifpizza-5206.twc1.net',  
+    'https://nukesul-boodaifpizza-5206.twc1.net',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -81,6 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# Используем только MySQL базу данных
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -157,14 +158,14 @@ LOGGING = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True  
-    CSRF_COOKIE_SECURE = True    
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_BROWSER_XSS_FILTER = True
-    X_FRAME_OPTIONS = 'DENY'
+# Настройки безопасности для production
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
