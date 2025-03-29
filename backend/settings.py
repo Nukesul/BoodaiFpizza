@@ -16,9 +16,14 @@ ALLOWED_HOSTS = [
     'boodaikg.com',
     'www.boodaikg.com',
     'vh438.timeweb.ru',
-    'nukesul-boodaifpizza-5206.twc1.net',  # Основной домен
+    'nukesul-boodaifpizza-5206.twc1.net',
+    'localhost',
+    '127.0.0.1',
     '0.0.0.0',
 ]
+
+# Порт сервера
+PORT = int(os.getenv('PORT', 3000))  # Установлен порт 3000 по умолчанию
 
 # Настройки базы данных (Production)
 DATABASES = {
@@ -69,14 +74,16 @@ MIDDLEWARE = [
 
 # Безопасность CORS/CSRF
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
     "https://boodaikg.com",
     "https://www.boodaikg.com",
-    "https://nukesul-boodaifpizza-5206.twc1.net",  # Добавлен в CORS
+    "https://nukesul-boodaifpizza-5206.twc1.net",
 ]
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
     "https://boodaikg.com",
     "https://www.boodaikg.com",
-    "https://nukesul-boodaifpizza-5206.twc1.net",  # Добавлен в CSRF
+    "https://nukesul-boodaifpizza-5206.twc1.net",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -93,12 +100,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/hour',
@@ -125,6 +134,9 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
@@ -133,8 +145,8 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
     },
@@ -150,12 +162,6 @@ TEMPLATES = [{
             'django.template.context_processors.request',
             'django.contrib.auth.context_processors.auth',
             'django.contrib.messages.context_processors.messages',
-        ],
-        'loaders': [
-            ('django.template.loaders.cached.Loader', [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
-            ]),
         ],
     },
 }]
