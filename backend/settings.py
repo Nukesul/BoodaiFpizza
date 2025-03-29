@@ -23,7 +23,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'vh438.timeweb.ru',
     'boodaikg.com',
-    'vasyaproger-backend1-c0b9.twc1.net',
+    'https://nukesul-boodaifpizza-5206.twc1.net',
     '0.0.0.0',  # Для Docker
 ]
 
@@ -62,8 +62,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:3000",
     "http://localhost:5173",  # Для локального Vue.js (npm run dev)
-    "https://boodaikg.com",
-    "https://vasyaproger-backend1-c0b9.twc1.net",  # Ваш фронтенд-домен
+    "https://boodaikg.com/",  # Ваш фронтенд-домен
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -95,7 +94,6 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:5173',  # Для локального Vue.js
     'https://boodaikg.com',
-    'https://vasyaproger-backend1-c0b9.twc1.net',  # Ваш фронтенд-домен
 ]
 
 ROOT_URLCONF = 'backend.urls'
